@@ -1,7 +1,10 @@
 import cv2
 import numpy as np
 import onnxruntime as ort
-
+f = open('output.txt', 'w')
+f.truncate(0)
+f.close()
+saved = None
 
 def center_crop(frame):
     h, w, _ = frame.shape
@@ -10,17 +13,24 @@ def center_crop(frame):
         return frame[start: start + w]
     return frame[:, start: start + h]
 
+def checkClick(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        global saved
+        with open("output.txt", 'a') as f:
+            f.write(saved)
 
 def main():
     # constants
     index_to_letter = list('ABCDEFGHIKLMNOPQRSTUVWXY')
     mean = 0.485 * 255.
     std = 0.229 * 255.
-
     # create runnable session with exported model
     ort_session = ort.InferenceSession("signlanguage.onnx")
 
     cap = cv2.VideoCapture(0)
+    cv2.namedWindow("image")
+    cv2.setMouseCallback("image", checkClick)
+
     while True:
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -36,7 +46,8 @@ def main():
 
         index = np.argmax(y, axis=1)
         letter = index_to_letter[int(index)]
-
+        global saved
+        saved = letter
         cv2.putText(frame, letter, (100, 100), cv2.FONT_HERSHEY_SIMPLEX, 2.0, (0, 255, 0), thickness=2)
         cv2.imshow("Sign Language Translator", frame)
 
