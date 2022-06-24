@@ -1,0 +1,8 @@
+cd sign-language-translator
+python3 -m venv sign-language-translator
+source sign-language-translator/bin/activate
+cd src
+sudo apt-get install libsm6 libxext6 libxrender-dev
+pip3 install torch==1.9.0 torchvision -f https://download.pytorch.org/whl/cpu/torch_stable.html
+python -m pip install opencv-python numpy onnx==1.6.0 onnxruntime
+python step_5_camera.py
