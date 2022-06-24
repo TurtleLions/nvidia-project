@@ -28,8 +28,8 @@ def main():
     ort_session = ort.InferenceSession("signlanguage.onnx")
 
     cap = cv2.VideoCapture(0)
-    cv2.namedWindow("image")
-    cv2.setMouseCallback("image", checkClick)
+    cv2.namedWindow("Click to add letter")
+    cv2.setMouseCallback("Click to add letter", checkClick)
 
     while True:
         # Capture frame-by-frame
@@ -52,6 +52,8 @@ def main():
         cv2.imshow("Sign Language Translator", frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            with open("output.txt", 'r') as f:
+                print("Your input was: " + f.read())
             break
 
     cap.release()
