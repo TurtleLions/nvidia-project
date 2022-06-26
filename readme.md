@@ -18,4 +18,4 @@ Using apt-get, install libsm6, libxext6, libxrender-dev (sudo apt-get install li
 Using pip install torch, torchvision, opencv-python, numpy, onnx, onnxruntime
 Run: python step_5_camera.py
 
-https://youtube.com/shorts/yilQClHC-E8?feature=share
+[[Video Link](video link)](https://youtube.com/shorts/yilQClHC-E8?feature=share)
