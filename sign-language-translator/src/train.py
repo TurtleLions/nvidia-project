@@ -37,7 +37,7 @@ def main():
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
 
     trainloader, _ = get_train_test_loaders()
-    for epoch in range(12):  # loop over the dataset multiple times
+    for epoch in range(12):
         train(net, criterion, optimizer, trainloader, epoch)
         scheduler.step()
     torch.save(net.state_dict(), "checkpoint.pth")
@@ -50,13 +50,13 @@ def train(net, criterion, optimizer, trainloader, epoch):
         labels = Variable(data['label'].long())
         optimizer.zero_grad()
 
-        # forward + backward + optimize
+
         outputs = net(inputs)
         loss = criterion(outputs, labels[:, 0])
         loss.backward()
         optimizer.step()
 
-        # print statistics
+
         running_loss += loss.item()
         if i % 100 == 0:
             print('[%d, %5d] loss: %.6f' % (epoch, i, running_loss / (i + 1)))
