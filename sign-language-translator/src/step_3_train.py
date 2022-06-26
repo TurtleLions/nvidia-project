@@ -5,7 +5,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import torch
 
-from dataset import get_train_test_loaders
+from step_2_dataset import get_train_test_loaders
 
 
 class Net(nn.Module):
