@@ -24,7 +24,7 @@ class SignLanguageMNIST(Dataset):
         mapping = SignLanguageMNIST.get_label_mapping()
         labels, samples = [], []
         with open(path) as f:
-            _ = next(f)  # skip header
+            _ = next(f)
             for line in csv.reader(f):
                 label = int(line[0])
                 labels.append(mapping.index(label))
