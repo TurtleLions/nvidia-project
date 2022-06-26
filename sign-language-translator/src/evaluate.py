@@ -9,12 +9,11 @@ import numpy as np
 import onnx
 import onnxruntime as ort
 
-from step_2_dataset import get_train_test_loaders
-from step_3_train import Net
+from dataset import get_train_test_loaders
+from train import Net
 
 
 def evaluate(outputs: Variable, labels: Variable) -> float:
-    """Evaluate neural network outputs against non-one-hotted labels."""
     Y = labels.numpy()
     Yhat = np.argmax(outputs, axis=1)
     return float(np.sum(Yhat == Y))
@@ -23,7 +22,6 @@ def evaluate(outputs: Variable, labels: Variable) -> float:
 def batch_evaluate(
         net: Net,
         dataloader: torch.utils.data.DataLoader) -> float:
-    """Evaluate neural network in batches, if dataset is too large."""
     score = n = 0.0
     for batch in dataloader:
         n += len(batch['image'])
