@@ -47,16 +47,16 @@ def validate():
 
     trainloader, testloader = get_train_test_loaders(1)
 
-    # export to onnx
+
     fname = "signlanguage.onnx"
     dummy = torch.randn(1, 1, 28, 28)
     torch.onnx.export(net, dummy, fname, input_names=['input'])
 
-    # check exported model
-    model = onnx.load(fname)
-    onnx.checker.check_model(model)  # check model is well-formed
 
-    # create runnable session with exported model
+    model = onnx.load(fname)
+    onnx.checker.check_model(model)
+
+
     ort_session = ort.InferenceSession(fname)
     net = lambda inp: ort_session.run(None, {'input': inp.data.numpy()})[0]
 
