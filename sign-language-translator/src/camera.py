@@ -32,10 +32,7 @@ def main():
     cv2.setMouseCallback("Click to add letter", checkClick)
 
     while True:
-        # Capture frame-by-frame
         ret, frame = cap.read()
-
-        # preprocess data
         frame = center_crop(frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         x = cv2.resize(frame, (28, 28))
