@@ -11,16 +11,31 @@ import csv
 
 
 class SignLanguageMNIST(Dataset):
+    """Sign Language classification dataset.
+
+    Utility for loading Sign Language dataset into PyTorch. Dataset posted on
+    Kaggle in 2017, by an unnamed author with username `tecperson`:
+    https://www.kaggle.com/datamunge/sign-language-mnist
+
+    Each sample is 1 x 1 x 28 x 28, and each label is a scalar.
+    """
 
     @staticmethod
     def get_label_mapping():
-
+        """
+        We map all labels to [0, 23]. This mapping from dataset labels [0, 23]
+        to letter indices [0, 25] is returned below.
+        """
         mapping = list(range(25))
         mapping.pop(9)
         return mapping
 
     @staticmethod
     def read_label_samples_from_csv(path: str):
+        """
+        Assumes first column in CSV is the label and subsequent 28^2 values
+        are image pixel values 0-255.
+        """
         mapping = SignLanguageMNIST.get_label_mapping()
         labels, samples = [], []
         with open(path) as f:
@@ -35,6 +50,10 @@ class SignLanguageMNIST(Dataset):
             path: str="data/sign_mnist_train.csv",
             mean: List[float]=[0.485],
             std: List[float]=[0.229]):
+        """
+        Args:
+            path: Path to `.csv` file containing `label`, `pixel0`, `pixel1`...
+        """
         labels, samples = SignLanguageMNIST.read_label_samples_from_csv(path)
         self._samples = np.array(samples, dtype=np.uint8).reshape((-1, 28, 28, 1))
         self._labels = np.array(labels, dtype=np.uint8).reshape((-1, 1))
